@@ -1,21 +1,12 @@
-import { getChannel } from './controller/channel.js';
-import { getCategory } from './controller/category.js';
-import { CATEGORIES } from './shared/config.js';
+import { getAll } from './controller/cloob-tv/index.js';
+import { getAllSalin } from './controller/salin-tv/index.js';
+import { MODE } from './shared/config.js';
 
 async function main(){
-    for(const name of CATEGORIES){
-        GetCateogryWithChannel(name);
+    if(MODE == 'cloob-tv'){
+        await getAll();
+    }else if (MODE == 'salin-tv'){
+        await getAllSalin();
     }
 }
-
-async function GetCateogryWithChannel(category){
-    let countChannel = 0;
-    const data = await getCategory(category);
-    for(const item of data){
-        const channel = await getChannel(item.cid);
-        countChannel = countChannel + channel.posts.length;
-    }
-    console.log(`Category: ${category} - Count of channel: ${countChannel}`);
-}
-
 main();
